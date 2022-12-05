@@ -248,6 +248,7 @@ return [
     'state'  				=> 'Provincia',
     'status_labels'			=> 'Etiquetas Estados',
     'status'    			=> 'Estados',
+    'state_name'            => 'Estado',
     'accept_eula'           => 'Acceptance Agreement',
     'supplier'              => 'Proveedor',
     'suppliers'  			=> 'Proveedores',

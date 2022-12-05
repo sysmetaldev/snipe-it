@@ -18,6 +18,8 @@ class PurchaseTransformer
             $array[] = self::transformPurchase($pur);
         }
 
+        // dd($array); die;
+
         return (new DatatablesTransformer)->transformDatatables($array, $total);
     }
 
@@ -26,8 +28,8 @@ class PurchaseTransformer
         $array = [
             'id' => $pur->id,
             'name' => e($pur->name),
-            'user' => ($pur->user) ? ['id' => $pur->user->id, 'name' => e($pur->user->name)] : null,
-            'state' => ($pur->state) ? (int) $pur->state : null,
+            'user' => ($pur->user) ? ['id' => $pur->user->id, 'name' => e($pur->user->username)] : 'Sin usuario',
+            'state' => $pur->textState(),
             'created_at' => Helper::getFormattedDateObject($pur->created_at, 'datetime'),
             'updated_at' => Helper::getFormattedDateObject($pur->updated_at, 'datetime'),
 

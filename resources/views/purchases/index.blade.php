@@ -39,8 +39,9 @@
                 class="table table-striped snipe-table"
                 data-url="{{route('api.purchases.index') }}"
                 data-export-options='{
-                    "fileName": "export-accessories-{{ date('Y-m-d') }}",
-                    "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","icon"]
+                    "fileName": "export-ordenes-de-compra-{{ date('d-m-Y') }}",
+                    "ignoreColumn": ["actions","image",
+                    "change","checkbox","checkincheckout","icon"]
                     }'>
           </table>
         </div>

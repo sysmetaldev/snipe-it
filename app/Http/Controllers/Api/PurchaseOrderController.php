@@ -17,6 +17,7 @@ use App\Http\Requests\ImageUploadRequest;
 use App\Models\PurchaseOrder;
 use App\Http\Transformers\PurchaseTransformer;
 use Illuminate\Support\Facades\Log;
+
 class PurchaseOrderController extends Controller
 {
     /**
@@ -54,9 +55,17 @@ class PurchaseOrderController extends Controller
             $accessories->where('user_id', '=', $request->input('user_id'));
         }
 
+        if ($request->filled('id')) {
+            $accessories->where('id', '=', $request->input('id'));
+        }
+
         // Set the offset to the API call's offset, unless the offset is higher than the actual count of items in which
         // case we override with the actual count, so we should return 0 items.
+
+
         $offset = (($purchases) && ($request->get('offset') > $purchases->count())) ? $purchases->count() : $request->get('offset', 0);
+        $offset = (int)$offset;
+
         // Check to make sure the limit is not higher than the max allowed
         ((config('app.max_results') >= $request->input('limit')) && ($request->filled('limit'))) ? $limit = $request->input('limit') : $limit = config('app.max_results');
 
@@ -75,7 +84,7 @@ class PurchaseOrderController extends Controller
         }
 
         $total = $purchases->count();
-        $offset = 100;
+        // $offset = 100;
         $purchases = $purchases->skip($offset)->take($limit)->get();
         return (new PurchaseTransformer)->transformPurchases($purchases, $total);
     }
