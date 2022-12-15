@@ -16,12 +16,13 @@ class PurchasePresenter extends Presenter
 
         $layout = [
             [
-                'field' => 'name',
+                'field' => 'title',
                 'searchable' => true,
                 'sortable' => true,
                 'switchable' => true,
                 'title' => trans('general.title'),
                 'visible' => true,
+                'formatter' => 'purchaseLinkEditFormatter',
             ],
             [
                 'field' => 'id',
@@ -41,6 +42,7 @@ class PurchasePresenter extends Presenter
                 'field' => 'user',
                 'searchable' => true,
                 'sortable' => true,
+                'switchable' => true,
                 'title' => trans('general.user'),
                 'formatter' => 'usersLinkObjFormatter',
             ]
@@ -54,7 +56,7 @@ class PurchasePresenter extends Presenter
      */
     public function nameUrl()
     {
-        return (string) link_to_route('accessories.show', $this->name, $this->id);
+        return (string) link_to_route('purcharse.show', $this->name, $this->id);
     }
 
     /**
@@ -63,7 +65,7 @@ class PurchasePresenter extends Presenter
      */
     public function viewUrl()
     {
-        return route('accessories.show', $this->id);
+        return route('purcharse.show', $this->id);
     }
 
     public function name()

@@ -50,6 +50,7 @@ class AccessoryCheckinController extends Controller
      */
     public function store(Request $request, $accessoryUserId = null, $backto = null)
     {
+    
         // Check if the accessory exists
         if (is_null($accessory_user = DB::table('accessories_users')->find($accessoryUserId))) {
             // Redirect to the accessory management page with error

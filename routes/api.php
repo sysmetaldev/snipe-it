@@ -134,13 +134,25 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
         ]
     );
 
+    // Route::group(['prefix' => 'purchases'], function () {
+
+    //     Route::get(
+    //         'selectlist',
+    //         [
+    //             Api\PurchaseOrderController::class,
+    //             'selectlist'
+    //         ]
+    //     )->name('api.purchases.items-selectlist');
+    // }); 
+
     Route::resource(
         'purchases',
-        Api\PurchaseOrderController::class,            
+        Api\PurchaseOrderController::class,
         [
             'names' =>
             [
                 'index' => 'api.purchases.index',
+                // 'selectlist' => 'api.purchases.items-selectlist'
                 // 'show' => 'api.accessories.show',
                 // 'update' => 'api.accessories.update',
                 // 'store' => 'api.accessories.store',
@@ -150,7 +162,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
             'parameters' => ['purchase' => 'purchase_id'],
         ]
     );
-    
+  
     
 
     /**

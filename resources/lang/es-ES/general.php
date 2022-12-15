@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'item_to_load'          => 'Item a cargar',
+    'user_to'               => 'Asignar a Usuario',
     'accessories'			=> 'Accesorios',
     'activated'			    => 'Activado',
     'accessory'				=> 'Accesorio',

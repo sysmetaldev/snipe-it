@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\ItemOrder;
 use App\Models\Traits\Searchable;
+use Watson\Validating\ValidatingTrait;
+use DB;
 
 class PurchaseOrder extends SnipeModel
 {
@@ -19,7 +20,7 @@ class PurchaseOrder extends SnipeModel
 
     use HasFactory;
     use Searchable;
-
+    use ValidatingTrait;
 
     /**
      * The attributes that should be included when searching the model.
@@ -64,7 +65,7 @@ class PurchaseOrder extends SnipeModel
      * Category validation rules
      */
     public $rules = [
-        'name'          => 'required|min:1|max:255',
+        'name'          => 'required|min:3|max:255',
         'state'         => 'required'
     ];
 
@@ -120,5 +121,40 @@ class PurchaseOrder extends SnipeModel
     {
         return $query->leftJoin('users', 'purchase_orders.user_id', '=', 'users.id')
             ->orderBy('users.username', $order);
+    }
+
+    public function scopeStateName($query, $state)
+    {
+        return $this->textState();
+    }
+    public function scopeItemsForShow($query, $id = null, $type)
+    {
+
+        if (Setting::getSettings()->show_archived_in_list != 1) {
+            return $query->join('items_orders', 'purchase_orders.id', '=', 'items_orders.purchase_order_id')
+                ->where([
+                    ['purchase_orders.id', '=', $id],
+                    ['items_orders.item_type', '=', $type]
+                ]);
+        } else {
+            return $query;
+        }
+    }
+
+
+    public function allItems($name)
+    {
+
+        $assets_query = DB::table('assets')->select('id', 'name', /* DB::raw('"Conjunto" as tipo'), */ 'image');
+        $consumables_query = DB::table('consumables')->select('id', 'name', /* DB::raw('"Consumible" as tipo'), */ 'image');
+        $accesories_query = DB::table('accessories')->select('id', 'name', /* DB::raw('"Accesorio" as tipo'), */ 'image');
+        $components_query = DB::table('components')->select('id', 'name', /* DB::raw('"Componente" as tipo'), */ 'image');
+        $items = $assets_query->union($consumables_query)->union($accesories_query)
+            ->union($components_query);
+
+        if ($name !== null) {
+            $items = $items->where('name', 'LIKE', '%' . $name . '%');
+        }
+        return $items->orderBy('name', 'ASC')->paginate(50);
     }
 }

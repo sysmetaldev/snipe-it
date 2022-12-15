@@ -38,10 +38,9 @@ class PurchasePrint extends Command
      */
     public function handle()
     {
-        $items = PurchaseOrder::find(1)->itemOrders;
-        // dd($pur->itemOrders);
+        $items = PurchaseOrder::allItems();
         foreach ($items as $item) {
-            echo $item->item->name. PHP_EOL;
+            echo $item->id.' '.$item->name.' '.$item->tipo. PHP_EOL;
         }
         return 0;
     }

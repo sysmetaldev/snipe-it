@@ -15,7 +15,9 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\PurchaseOrder;
+use App\Models\Assets;
 use App\Http\Transformers\PurchaseTransformer;
+use App\Models\Asset;
 use Illuminate\Support\Facades\Log;
 
 class PurchaseOrderController extends Controller
@@ -87,5 +89,39 @@ class PurchaseOrderController extends Controller
         // $offset = 100;
         $purchases = $purchases->skip($offset)->take($limit)->get();
         return (new PurchaseTransformer)->transformPurchases($purchases, $total);
+    }
+
+   
+   
+
+    /**
+     * @deprecated
+     */
+    public function selectlist(Request $request)
+    {
+        $this->authorize('view.selectlists');
+
+        // $purchases = PurchaseOrder::allItems($request->filled('search')?$request->get('search'):null);
+        $purchases = Asset::select([
+            'id',
+            'name',
+            'image',
+        ]);
+
+        if ($request->filled('search')) {
+            $purchases = $purchases->where('name', 'LIKE', '%'.$request->get('search').'%');
+        }
+
+        // $categories = $categories->where('category_type', $category_type)->orderBy('name', 'ASC')->paginate(50);
+
+        $purchases = $purchases->orderBy('name', 'ASC')->paginate(50);
+
+        // Loop through and set some custom properties for the transformer to use.
+        // This lets us have more flexibility in special cases like assets, where
+        // they may not have a ->name value but we want to display something anyway
+        // foreach ($categories as $category) {
+        //     $category->use_image = ($category->image) ? Storage::disk('public')->url('categories/'.$category->image, $category->image) : null;
+        // }
+        return (new SelectlistTransformer)->transformSelectlist($purchases);
     }
 }

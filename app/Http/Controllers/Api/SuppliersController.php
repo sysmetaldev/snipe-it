@@ -217,7 +217,6 @@ class SuppliersController extends Controller
             $supplier->use_text = $supplier->name;
             $supplier->use_image = ($supplier->image) ? Storage::disk('public')->url('suppliers/'.$supplier->image, $supplier->image) : null;
         }
-
         return (new SelectlistTransformer)->transformSelectlist($suppliers);
     }
 }

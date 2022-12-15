@@ -80,7 +80,7 @@ class ConsumablesController extends Controller
         $consumable->qty                    = $request->input('qty');
         $consumable->user_id                = Auth::id();
         $consumable->notes                  = $request->input('notes');
-        $consumable->money                  = $request->inpunt('money','ARG');
+        $consumable->money                  = $request->input('money', 'ARG');
 
 
         $consumable = $request->handleImages($consumable);

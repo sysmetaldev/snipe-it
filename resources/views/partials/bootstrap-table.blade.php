@@ -253,6 +253,10 @@
                 var dest = 'hardware/maintenances';
             }
 
+            if (dest =='consumables') {
+                actions +=  '<a href="http://localhost:8000/consumables/1/edit" class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
+            }
+            
             if(element_name != '') {
                 dest = dest + '/' + row.owner_id + '/' + element_name;
             }
@@ -264,6 +268,8 @@
             if ((row.available_actions) && (row.available_actions.update === true)) {
                 actions += '<a href="{{ url('/') }}/' + dest + '/' + row.id + '/edit" class="btn btn-sm btn-warning" data-tooltip="true" title="{{ trans('general.update') }}"><i class="fas fa-pencil-alt" aria-hidden="true"></i><span class="sr-only">{{ trans('general.update') }}</span></a>&nbsp;';
             }
+
+           
 
             if ((row.available_actions) && (row.available_actions.delete === true)) {
                 actions += '<a href="{{ url('/') }}/' + dest + '/' + row.id + '" '
@@ -361,6 +367,10 @@
             return '<a href="{{ url('/') }}/licenses/' + row.id + '/checkin" class="btn btn-sm bg-purple" data-toggle="tooltip" title="Check in this license seat.">{{ trans('general.checkin') }}</a>';
         }
 
+    }
+
+    function addPurchaseOrder(value, row){
+        return '<nobr><a href="http://localhost:8000/consumables/1/edit" class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;</nobr>';
     }
 
     function genericCheckinCheckoutFormatter(destination) {
@@ -556,6 +566,13 @@
     function assetNameLinkFormatter(value, row) {
         if ((row.asset) && (row.asset.name)) {
             return '<a href="{{ url('/') }}/hardware/' + row.asset.id + '">' + row.asset.name + '</a>';
+        }
+
+    }
+
+    function purchaseLinkEditFormatter(value, row) {
+        if ((row.pur) && (row.pur.name)) {
+            return '<a href="{{ url('/') }}/purchases/' + row.pur.id + '/edit">' + row.pur.name + '</a>';
         }
 
     }

@@ -123,6 +123,7 @@ class AccessoriesController extends Controller
      */
     public function store(ImageUploadRequest $request)
     {
+       
         $this->authorize('create', Accessory::class);
         $accessory = new Accessory;
         $accessory->fill($request->all());

@@ -17,7 +17,7 @@ Route::resource('purchases', PurchaseOrderController::class, [
     'parameters' => ['purchase' => 'purchase_id'],
 ]);
 
-// Route::resource('accessories', Accessories\AccessoriesController::class, [
+// Route::resource('accessories', , [
 //     'middleware' => ['auth'],
 //     'parameters' => ['accessory' => 'accessory_id'],
 // ]);

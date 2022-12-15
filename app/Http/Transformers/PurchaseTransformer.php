@@ -27,8 +27,13 @@ class PurchaseTransformer
     {
         $array = [
             'id' => $pur->id,
-            'name' => e($pur->name),
-            'user' => ($pur->user) ? ['id' => $pur->user->id, 'name' => e($pur->user->username)] : 'Sin usuario',
+            'pur' => [
+                'id' => $pur->id,
+                'name' => e($pur->name)
+            ],
+            'user' => ($pur->user) ? [
+                'id' => $pur->user->id,
+                'name' => e($pur->user->username)] : 'Sin usuario',
             'state' => $pur->textState(),
             'created_at' => Helper::getFormattedDateObject($pur->created_at, 'datetime'),
             'updated_at' => Helper::getFormattedDateObject($pur->updated_at, 'datetime'),

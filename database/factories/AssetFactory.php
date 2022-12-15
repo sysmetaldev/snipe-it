@@ -37,7 +37,7 @@ class AssetFactory extends Factory
     public function definition()
     {
         return [
-            'name' => null,
+            'name' => 'null',
             'rtd_location_id' => Location::all()->random()->id,
             'serial' => $this->faker->uuid,
             'status_id' => 1,
@@ -60,6 +60,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Satellite ',
                 'model_id' => 1,
             ];
         });
@@ -69,6 +70,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Inspire ',
                 'model_id' => 1,
                 'status_id' => 2,
             ];
@@ -79,6 +81,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Location ',
                 'model_id' => 1,
                 'status_id' => 3,
             ];
@@ -89,6 +92,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Airbook ',
                 'model_id' => 2,
             ];
         });
@@ -98,6 +102,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Sufface ',
                 'model_id' => 3,
             ];
         });
@@ -107,6 +112,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Inspiron ',
                 'model_id' => 4,
             ];
         });
@@ -116,6 +122,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Spectrum ',
                 'model_id' => 5,
             ];
         });
@@ -125,6 +132,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Zend ',
                 'model_id' => 6,
             ];
         });
@@ -134,6 +142,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Yoga ',
                 'model_id' => 7,
             ];
         });
@@ -143,6 +152,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Makro ',
                 'model_id' => 8,
             ];
         });
@@ -152,6 +162,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop I5 ',
                 'model_id' => 9,
             ];
         });
@@ -161,6 +172,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Onix ',
                 'model_id' => 10,
             ];
         });
@@ -170,6 +182,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Polycom ',
                 'model_id' => 11,
             ];
         });
@@ -179,6 +192,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Laptop Super Polycom ',
                 'model_id' => 12,
             ];
         });
@@ -188,6 +202,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Tablet Ipad ',
                 'model_id' => 13,
             ];
         });
@@ -197,6 +212,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Tablet Sega ',
                 'model_id' => 14,
             ];
         });
@@ -206,6 +222,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Celular Iphone 11 ',
                 'model_id' => 15,
             ];
         });
@@ -215,6 +232,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Celular 12 ',
                 'model_id' => 16,
             ];
         });
@@ -224,6 +242,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Ultra 12 ',
                 'model_id' => 17,
             ];
         });
@@ -233,6 +252,7 @@ class AssetFactory extends Factory
     {
         return $this->state(function () {
             return [
+                'name' => 'Ultra Sharp',
                 'model_id' => 18,
             ];
         });
@@ -241,7 +261,7 @@ class AssetFactory extends Factory
     public function assignedToUser()
     {
         return $this->state(function () {
-            return [
+            return [                
                 'model_id' => 1,
                 'assigned_to' => \App\Models\User::factory()->create()->id,
                 'assigned_type' => \App\Models\User::class,

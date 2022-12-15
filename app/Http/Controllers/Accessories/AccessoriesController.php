@@ -61,6 +61,7 @@ class AccessoriesController extends Controller
      */
     public function store(ImageUploadRequest $request)
     {
+
         $this->authorize(Accessory::class);
         // create a new model instance
         $accessory = new Accessory();
