@@ -7,6 +7,7 @@ return array(
     'total'  							=> 'Total ',
     'load_item'                         => 'Cargar item',
     'add_to_order'                      => 'Agregar a orden de compra',
+    'select'                            => 'Seleccionar orden de compra',
     'remaining'  						=> 'Disponibles',
     'accessory_category' 				=> 'Categoría de accesorio',
     'checkout'  						=> 'Checkout Accesorio',

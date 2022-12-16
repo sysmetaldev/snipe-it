@@ -36,8 +36,6 @@ class ModalController extends Controller
             'user',
             'item'
         ];
-
-
         if (in_array($type, $allowed_types)) {
             $view = view("modals.${type}");
 

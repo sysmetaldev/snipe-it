@@ -252,11 +252,12 @@
             if (dest =='maintenances') {
                 var dest = 'hardware/maintenances';
             }
-
-            if (dest =='consumables') {
-                actions +=  '<a href="http://localhost:8000/consumables/1/edit" class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
-            }
             
+            if (dest =='consumables') {
+                // {{ route('modal.show', 'pur-consumables') }}
+                actions += '<a href="{{ route('purchases.item', ['type'=>'pur-con']) }}/'+row.id+'" data-select="assigned_user_select"  class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
+            }
+
             if(element_name != '') {
                 dest = dest + '/' + row.owner_id + '/' + element_name;
             }

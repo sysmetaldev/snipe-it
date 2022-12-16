@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Route;
 * PurchaseOrder
  */
 
-// Route::controller(PurchaseOrderController::class)
-//     ->group(['prefix' => 'purchases', 'middleware' => ['auth']], function () {
-//         Route::get('/', 'index')->name('purchases.index');       
-//     });
+Route::group(['prefix' => 'purchases', 'middleware' => ['auth']], function () {
+    Route::get(
+        'item/{type}/{id?}',
+        [PurchaseOrderController::class, 'item']
+    )->name('purchases.item');
+});
 
 Route::resource('purchases', PurchaseOrderController::class, [
     'middleware' => ['auth'],

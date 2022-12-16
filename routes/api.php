@@ -145,6 +145,20 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
     //     )->name('api.purchases.items-selectlist');
     // }); 
 
+     /**
+     * Assets API routes
+     */
+    Route::group(['prefix' => 'pur-open'], function () {
+
+        Route::get(
+            'selectlist',
+            [
+                Api\PurchaseOrderController::class,
+                'selectlist'
+            ]
+        )->name('api.purchases.selectlist');
+    });
+
     Route::resource(
         'purchases',
         Api\PurchaseOrderController::class,

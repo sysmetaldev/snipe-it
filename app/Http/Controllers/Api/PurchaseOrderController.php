@@ -91,8 +91,8 @@ class PurchaseOrderController extends Controller
         return (new PurchaseTransformer)->transformPurchases($purchases, $total);
     }
 
-   
-   
+
+
 
     /**
      * @deprecated
@@ -101,27 +101,20 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('view.selectlists');
 
-        // $purchases = PurchaseOrder::allItems($request->filled('search')?$request->get('search'):null);
-        $purchases = Asset::select([
-            'id',
-            'name',
-            'image',
+        $pur = PurchaseOrder::select([
+            'purchase_orders.id',
+            DB::raw('CONCAT("(",purchase_orders.id,")",purchase_orders.name) as name'),
         ]);
-
+        $a = $request->get('search');
+        $pur = $pur->where('purchase_orders.state', '=', '0');
         if ($request->filled('search')) {
-            $purchases = $purchases->where('name', 'LIKE', '%'.$request->get('search').'%');
+            $pur = $pur->where(function ($q) use ($a) {
+                $q->where('purchase_orders.name', 'LIKE', '%' . $a . '%')
+                    ->orWhere('purchase_orders.id', '=', $a);
+            });
         }
+        $pur = $pur->orderBy('name', 'ASC')->paginate(50);
 
-        // $categories = $categories->where('category_type', $category_type)->orderBy('name', 'ASC')->paginate(50);
-
-        $purchases = $purchases->orderBy('name', 'ASC')->paginate(50);
-
-        // Loop through and set some custom properties for the transformer to use.
-        // This lets us have more flexibility in special cases like assets, where
-        // they may not have a ->name value but we want to display something anyway
-        // foreach ($categories as $category) {
-        //     $category->use_image = ($category->image) ? Storage::disk('public')->url('categories/'.$category->image, $category->image) : null;
-        // }
-        return (new SelectlistTransformer)->transformSelectlist($purchases);
+        return (new SelectlistTransformer)->transformSelectlist($pur);
     }
 }

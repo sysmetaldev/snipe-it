@@ -6,6 +6,7 @@ use App\Http\Requests\StorePurchaseOrderRequest;
 use App\Http\Requests\UpdatePurchaseOrderRequest;
 use App\Models\PurchaseOrder;
 use App\Http\Requests\ImageUploadRequest;
+use App\Models\Consumable;
 
 class PurchaseOrderController extends Controller
 {
@@ -98,6 +99,11 @@ class PurchaseOrderController extends Controller
       
     }
 
+    public function item($type, $id = null){
+        $this->authorize('item', PurchaseOrder::class);
+        $item = Consumable::find($id);
+        return view('purchases/item')->with('item', $item);
+    }
     /**
      * Update the specified resource in storage.
      *
