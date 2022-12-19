@@ -1042,6 +1042,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
                 'selectlist'
             ]
         )->name('api.suppliers.selectlist');
+
+        Route::get(
+            'costs',
+            [
+                Api\SuppliersController::class,
+                'costs'
+            ]
+        )->name('api.suppliers.costs');
     });
 
     Route::resource(
@@ -1054,7 +1062,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
                 'show' => 'api.suppliers.show',
                 'update' => 'api.suppliers.update',
                 'store' => 'api.suppliers.store',
-                'destroy' => 'api.suppliers.destroy',
+                'destroy' => 'api.suppliers.destroy',              
             ],
             'except' => ['create', 'edit'],
             'parameters' => ['supplier' => 'supplier_id'],

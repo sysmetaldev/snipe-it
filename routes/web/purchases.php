@@ -10,8 +10,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'purchases', 'middleware' => ['auth']], function () {
     Route::get(
         'item/{type}/{id?}',
-        [PurchaseOrderController::class, 'item']
+        [PurchaseOrderController::class, 'createItem']
     )->name('purchases.item');
+    Route::post(
+        'storeItem',
+        [PurchaseOrderController::class, 'storeItem']
+    )->name('purchases.storeItem');
 });
 
 Route::resource('purchases', PurchaseOrderController::class, [

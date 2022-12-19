@@ -24,10 +24,81 @@ class SuppliersController extends Controller
     {
         $this->authorize('view', Supplier::class);
         $allowed_columns = ['id', 'name', 'address', 'phone', 'contact', 'fax', 'email', 'image', 'assets_count', 'licenses_count', 'accessories_count', 'url'];
-        
+
         $suppliers = Supplier::select(
-                ['id', 'name', 'address', 'address2', 'city', 'state', 'country', 'fax', 'phone', 'email', 'contact', 'created_at', 'updated_at', 'deleted_at', 'image', 'notes']
-            )->withCount('assets as assets_count')->withCount('licenses as licenses_count')->withCount('accessories as accessories_count');
+            ['id', 'name', 'address', 'address2', 'city', 'state', 'country', 'fax', 'phone', 'email', 'contact', 'created_at', 'updated_at', 'deleted_at', 'image', 'notes']
+        )->withCount('assets as assets_count')->withCount('licenses as licenses_count')->withCount('accessories as accessories_count');
+
+
+        if ($request->filled('search')) {
+            $suppliers = $suppliers->TextSearch($request->input('search'));
+        }
+
+        if ($request->filled('name')) {
+            $suppliers->where('name', '=', $request->input('name'));
+        }
+
+        if ($request->filled('address')) {
+            $suppliers->where('address', '=', $request->input('address'));
+        }
+
+        if ($request->filled('address2')) {
+            $suppliers->where('address2', '=', $request->input('address2'));
+        }
+
+        if ($request->filled('city')) {
+            $suppliers->where('city', '=', $request->input('city'));
+        }
+
+        if ($request->filled('zip')) {
+            $suppliers->where('zip', '=', $request->input('zip'));
+        }
+
+        if ($request->filled('country')) {
+            $suppliers->where('country', '=', $request->input('country'));
+        }
+
+        if ($request->filled('fax')) {
+            $suppliers->where('fax', '=', $request->input('fax'));
+        }
+
+        if ($request->filled('email')) {
+            $suppliers->where('email', '=', $request->input('email'));
+        }
+
+        if ($request->filled('url')) {
+            $suppliers->where('url', '=', $request->input('url'));
+        }
+
+        if ($request->filled('notes')) {
+            $suppliers->where('notes', '=', $request->input('notes'));
+        }
+
+        // Set the offset to the API call's offset, unless the offset is higher than the actual count of items in which
+        // case we override with the actual count, so we should return 0 items.
+        $offset = (($suppliers) && ($request->get('offset') > $suppliers->count())) ? $suppliers->count() : $request->get('offset', 0);
+
+        // Check to make sure the limit is not higher than the max allowed
+        ((config('app.max_results') >= $request->input('limit')) && ($request->filled('limit'))) ? $limit = $request->input('limit') : $limit = config('app.max_results');
+
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $sort = in_array($request->input('sort'), $allowed_columns) ? $request->input('sort') : 'created_at';
+        $suppliers->orderBy($sort, $order);
+
+        $total = $suppliers->count();
+        $suppliers = $suppliers->skip($offset)->take($limit)->get();
+
+        return (new SuppliersTransformer)->transformSuppliers($suppliers, $total);
+    }
+
+    public function costs(Request $request)
+    {
+        $this->authorize('view', Supplier::class);
+        $allowed_columns = ['id', 'name', 'address', 'phone', 'contact', 'fax', 'email', 'image', 'assets_count', 'licenses_count', 'accessories_count', 'url'];
+
+        $suppliers = Supplier::select(
+            ['id', 'name', 'phone']
+        )->withCount('assets as assets_count')->withCount('licenses as licenses_count')->withCount('accessories as accessories_count');
 
 
         if ($request->filled('search')) {
@@ -92,6 +163,7 @@ class SuppliersController extends Controller
     }
 
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -111,7 +183,6 @@ class SuppliersController extends Controller
             return response()->json(Helper::formatStandardApiResponse('success', $supplier, trans('admin/suppliers/message.create.success')));
         }
         return response()->json(Helper::formatStandardApiResponse('error', null, $supplier->getErrors()));
-
     }
 
     /**
@@ -205,7 +276,7 @@ class SuppliersController extends Controller
         ]);
 
         if ($request->filled('search')) {
-            $suppliers = $suppliers->where('suppliers.name', 'LIKE', '%'.$request->get('search').'%');
+            $suppliers = $suppliers->where('suppliers.name', 'LIKE', '%' . $request->get('search') . '%');
         }
 
         $suppliers = $suppliers->orderBy('name', 'ASC')->paginate(50);
@@ -215,7 +286,7 @@ class SuppliersController extends Controller
         // they may not have a ->name value but we want to display something anyway
         foreach ($suppliers as $supplier) {
             $supplier->use_text = $supplier->name;
-            $supplier->use_image = ($supplier->image) ? Storage::disk('public')->url('suppliers/'.$supplier->image, $supplier->image) : null;
+            $supplier->use_image = ($supplier->image) ? Storage::disk('public')->url('suppliers/' . $supplier->image, $supplier->image) : null;
         }
         return (new SelectlistTransformer)->transformSelectlist($suppliers);
     }

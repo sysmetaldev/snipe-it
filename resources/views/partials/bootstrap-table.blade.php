@@ -258,6 +258,17 @@
                 actions += '<a href="{{ route('purchases.item', ['type'=>'pur-con']) }}/'+row.id+'" data-select="assigned_user_select"  class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
             }
 
+            if (dest =='components') {
+                // {{ route('modal.show', 'pur-consumables') }}
+                actions += '<a href="{{ route('purchases.item', ['type'=>'pur-com']) }}/'+row.id+'" data-select="assigned_user_select"  class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
+            }
+          
+            if (dest == 'suppliersSelect'){
+                actions += '<input type="radio" name="supplier_id" value="'+row.id+'" />';
+                actions +='</nobr>';
+                return actions;
+            }
+
             if(element_name != '') {
                 dest = dest + '/' + row.owner_id + '/' + element_name;
             }
@@ -434,7 +445,8 @@
         'depreciations',
         'fieldsets',
         'groups',
-        'kits'
+        'kits',
+        'suppliersSelect'
     ];
 
     for (var i in formatters) {
@@ -798,5 +810,5 @@
     });
 
 </script>
-    
+
 @endpush

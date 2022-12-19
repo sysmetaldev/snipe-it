@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Watson\Validating\ValidatingTrait;
 
+use Illuminate\Support\Facades\DB;
+
 class Consumable extends SnipeModel
 {
     use HasFactory;
@@ -28,8 +30,8 @@ class Consumable extends SnipeModel
         'category_id'    => 'integer',
         'company_id'     => 'integer',
         'qty'            => 'integer',
-        'min_amt'        => 'integer',    
-     ];
+        'min_amt'        => 'integer',
+    ];
 
     /**
      * Category validation rules
@@ -232,10 +234,9 @@ class Consumable extends SnipeModel
     public function getImageUrl()
     {
         if ($this->image) {
-            return Storage::disk('public')->url(app('consumables_upload_path').$this->image);
+            return Storage::disk('public')->url(app('consumables_upload_path') . $this->image);
         }
         return false;
-
     }
 
     /**
@@ -378,9 +379,31 @@ class Consumable extends SnipeModel
         return $query->leftJoin('companies', 'consumables.company_id', '=', 'companies.id')->orderBy('companies.name', $order);
     }
 
-        
+
     public function itemOrders()
     {
         return $this->morphMany(ItemOrder::class, 'item');
+    }
+
+
+    public function saveWiouthPurchasseOrder($supplier_id = null)
+    {
+        return DB::transaction(function () use ($supplier_id) {
+            $con = $this->save();
+            if ($con && $supplier_id) {
+                $itemOrder = new ItemOrder();
+                $itemOrder->purchase_order_id = null;
+                $itemOrder->item_id = $this->id;
+                $itemOrder->item_type = Consumable::class;
+                $itemOrder->total = $this->qty;
+                $itemOrder->total_final = $this->qty;
+                $itemOrder->base_cost = $this->purchase_cost;
+                $itemOrder->purchase_cost = $this->purchase_cost;
+                $itemOrder->supplier_id = $supplier_id;
+                // $itemOrder->purchase_
+                $itemOrder->saveWiouthPurchasseOrder();
+            }
+            return $con;
+        });
     }
 }

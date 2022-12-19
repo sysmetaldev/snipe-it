@@ -4,7 +4,7 @@
         <select class="js-data-ajax" data-endpoint="pur-open" data-placeholder="{{ $translated_name }}" name="{{ $fieldname }}" style="width: 100%" id="pur_select" aria-label="{{ $fieldname }}" required>
             @if ($pur_id = old($fieldname, (isset($item)) ? $item->{$fieldname} : ''))
                 <option value="{{ $pur_id }}" selected="selected" role="option" aria-selected="true"  role="option">
-                    {{ (\App\Models\PurchaseOrder::find($pur_id)) ? \App\Models\Supplier::find($pur_id)->name : '' }}
+                    {{ (\App\Models\PurchaseOrder::find($pur_id)) ? \App\Models\PurchaseOrder::find($pur_id)->name : '' }}
                 </option>
             @else
                 <option value="" role="option">{{ trans('general.select_supplier') }}</option>

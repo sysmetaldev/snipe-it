@@ -5,6 +5,7 @@ return array(
     'edit'  							=> 'Editar Orden de Compra',
     'title'  					        => 'Titulo',
     'total'  							=> 'Total ',
+    'cant'                              => 'Cantidad',
     'load_item'                         => 'Cargar item',
     'add_to_order'                      => 'Agregar a orden de compra',
     'select'                            => 'Seleccionar orden de compra',

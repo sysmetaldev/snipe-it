@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePurchaseOrderRequest;
 use App\Http\Requests\UpdatePurchaseOrderRequest;
 use App\Models\PurchaseOrder;
+use App\Models\ItemOrder;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Consumable;
+use App\Models\Component;
+use Illuminate\Http\Request;
 
 class PurchaseOrderController extends Controller
 {
@@ -92,17 +95,65 @@ class PurchaseOrderController extends Controller
         $this->authorize('update', PurchaseOrder::class);
         if ($item = PurchaseOrder::find($purID)) {
             return view('purchases/edit')
-            ->with('item', $item);
+                ->with('item', $item);
         }
         return redirect()->route('models.index')->with('error', trans('admin/models/message.does_not_exist'));
-     
-      
     }
 
-    public function item($type, $id = null){
+    public function createItem(Request $request, $type, $id = null)
+    {
         $this->authorize('item', PurchaseOrder::class);
-        $item = Consumable::find($id);
-        return view('purchases/item')->with('item', $item);
+        $itemOrder = new ItemOrder();
+        $itemOrder->total = 0;
+        // pur-con
+        // pur-com
+        switch ($type) {
+            case 'pur-con':
+                $itemOrder->item_id = Consumable::find($id)->id;
+                $itemOrder->item_type = Consumable::class;
+                break;
+            case 'pur-com':
+                $itemOrder->item_id = Component::find($id)->id;
+                $itemOrder->item_type = Component::class;
+            default:
+                # code...
+                break;
+        }
+
+        return view('purchases/item')->with('item', $itemOrder);
+    }
+
+    public function storeItem(ImageUploadRequest $request)
+    {
+        $this->authorize('storeItem', PurchaseOrder::class);
+        $itemOrder = new ItemOrder();
+        $itemOrder->total = (int) $request->input('total', 0);
+        $itemOrder->supplier_id = (int) $request->input('supplier_id', null);
+        $itemOrder->purchase_order_id = (int) $request->input('purchase_order_id', null);
+        $itemOrder->item_id = (int) $request->input('item_id', null);
+        $itemOrder->item_type = $request->input('item_type', null);
+
+
+        $item = ItemOrder::where(
+            [
+                ['items_orders.supplier_id', '=', $itemOrder->supplier_id],
+                ['items_orders.item_type', '=', $itemOrder->item_type],
+                ['items_orders.item_id', '=',   $itemOrder->item_id],
+                ['items_orders.purchase_order_id', '=', $itemOrder->purchase_order_id]
+            ]
+        )->get();
+        if ($item->count() > 0) {
+            return redirect()->back()->withInput()->with('error', 'Este provedor ya posee este articulo');
+        }
+        if ($itemOrder->save()) {
+            if (str_contains($itemOrder->item_type, 'Consumable')) {
+                return redirect()->route('consumables.index')
+                    ->with('success', "Item agregado a la orden de compra correctamente");
+            } else {
+                throw new \Error('Sin lugar para la cosita');
+            }
+        }
+        return redirect()->back()->withInput()->withErrors($itemOrder->getErrors());
     }
     /**
      * Update the specified resource in storage.
@@ -110,7 +161,7 @@ class PurchaseOrderController extends Controller
      * @param  \App\Http\Requests\UpdatePurchaseOrderRequest  $request
      * @param  int  $purchaseOrder
      * @return \Illuminate\Http\Response
-     */        
+     */
     public function update(UpdatePurchaseOrderRequest $request, $purchaseOrder = null)
     {
         //
