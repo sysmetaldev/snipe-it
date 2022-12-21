@@ -96,7 +96,7 @@ class PurchaseOrderController extends Controller
 
     public function itemsForOrder(Request $request, $purId){
         $this->authorize('view.itemsForOrder');
-        $items = ItemOrder::select('items_orders.*')->where('purchase_order_id', '=', $purId);
+        $items = ItemOrder::select('items_orders.*')->with('supplier')->where('purchase_order_id', '=', $purId);
 
         $allowed_columns = ['id', 'name', 'state'];
         $offset = (($items) && ($request->get('offset') > $items->count())) ? $items->count() : $request->get('offset', 0);

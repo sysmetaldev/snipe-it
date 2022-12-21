@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="margin: 15px">
     <div class="col-lg-3 col-xs-6">
         <a href="{{ route('hardware.index') }}">
             <!-- small box -->
@@ -136,6 +136,8 @@
                               <th data-sortable="true" data-field="id" data-visible="true">ID</th>
                               <th data-sortable="false" data-field="item.name">Item</th>
                               <th data-sortable="false" data-field="item.type">Tipo</th>
+                              <th data-sortable="false" data-field="item.total">Total</th>
+                              <th data-sortable="false" data-field="item.supplier">Proveedor</th>
                               {{-- <th data-sortable="true" data-field="address">{{ trans('admin/suppliers/table.address') }}</th> --}}
                               {{-- <th data-searchable="true" data-sortable="true" data-field="contact">{{ trans('admin/suppliers/table.contact') }}</th> --}}
                               {{-- <th data-searchable="true" data-sortable="true" data-field="email" data-formatter="emailFormatter">{{ trans('admin/suppliers/table.email') }}</th> --}}
@@ -147,6 +149,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="box-footer text-right">
+        <button type="submit" accesskey="s" class="btn btn-primary"><i class="fas fa-thumbs-up icon-white" aria-hidden="true"></i> Aprobar orden de compra</button>
+        <a class="btn btn-danger text-left" href="http://localhost:8000/purchases"><i class="fas fa-thumbs-down icon-white" aria-hidden="true"></i> Cancelar orden de compra</a>
     </div>
     @endif
 </div>

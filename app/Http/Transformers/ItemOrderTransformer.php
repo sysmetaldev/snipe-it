@@ -29,7 +29,9 @@ class ItemOrderTransformer
             'item' => [
                 'id' => $item->item->id,
                 'name' => e($item->item->name),
-                'type' => e($this->classToType($item->item_type))
+                'type' => e($this->classToType($item->item_type)),
+                'total' => e($item->total),
+                'supplier' => e($item->supplier->name)
             ],
             'state' => '$item->textState()',
             'created_at' => Helper::getFormattedDateObject($item->created_at, 'datetime'),

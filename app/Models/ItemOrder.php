@@ -70,4 +70,9 @@ class ItemOrder extends SnipeModel
         $this->purchase_order_id = -1;
         $this->save();
     }
+
+    public function supplier()
+    {
+        return $this->belongsTo(\App\Models\Supplier::class, 'supplier_id');
+    }
 }
