@@ -10,14 +10,11 @@ class SelectAssets extends Component
     public $assignedTo;
     public $search;
 
-
     public function add($id)
     {
         $this->emit('addAssetToList', $id);
         $this->search = '';
     }
-
-
 
     public function render()
     {
@@ -61,5 +58,9 @@ class SelectAssets extends Component
             "serial"=>$asset->serial,
             "img" => $asset->getImageUrl()
         ];
+    }
+
+    public function clearSearch(){
+        $this->search = '';
     }
 }

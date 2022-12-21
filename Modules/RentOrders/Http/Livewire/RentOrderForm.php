@@ -12,25 +12,43 @@ class RentOrderForm extends Component
 {
     public $assignedTo = null;
     public $selected = [];
+    public $returnDate; 
+    
+    public $error = [
+        'user' => false,
+        'assets' => false,
+        'returnDate' => false
+    ];
 
     public $listeners = [
         'addAssetToList' => "addAssetToList",
-        "setSelectedUser" => "setUser"
+        "setSelectedUser" => "setUser",
+        "setReturnDate"=>"setReturnDate"
     ];
 
     public function render()
     {
-        return view('rentorders::livewire.rent-order-form');
+        return view('rentorders::livewire.rent-order-form', [
+            'error' => $this->error
+        ]);
+    }
+
+    public function setReturnDate($date)
+    {
+        $this->error['returnDate'] = false;
+        $this->returnDate = $date;
     }
 
     public function addAssetToList($id)
     {
+        $this->error['assets'] = false;
         $this->selected[] = $this->assetToArray(Asset::find($id));
     }
 
     public function setUser($id)
     {
         $this->assignedTo = User::find($id);
+        $this->error['user'] = false;
     }
 
 
@@ -54,8 +72,10 @@ class RentOrderForm extends Component
 
     public function createRentOrder()
     {
-        if (!$this->assignedTo || count($this->selected) == 0)
+        if (!$this->assignedTo || count($this->selected) == 0 || !$this->returnDate) {
+            $this->setErrors();
             return;
+        }
 
         if (auth()->check()) {
             $operator = auth()->user();
@@ -64,13 +84,25 @@ class RentOrderForm extends Component
             foreach ($this->selected as $asset) {
                 $assets[] = $asset['id'];
             }
-            $system->send($operator->id, $this->assignedTo['id'], $assets);
+            $system->send($operator->id, $this->assignedTo['id'], $assets, $this->returnDate);
             session()->flash('success_message', 'RentOrder was added successfully!');
             $this->reset();
             return redirect()->route('rentorders.index');
         }
 
         abort(Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @return void
+     */
+    public function setErrors(): void
+    {
+        $this->error = [
+            'user' => ($this->assignedTo == null),
+            'assets' => (count($this->selected) == 0),
+            'returnDate' => ($this->assignedTo == null)
+        ];
     }
 
 }

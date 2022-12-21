@@ -2801,6 +2801,33 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "akemidx",
+      "name": "akemidx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/116301219?v=4",
+      "profile": "https://github.com/akemidx",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "oguzbilgic",
+      "name": "Oguz Bilgic",
+      "avatar_url": "https://avatars.githubusercontent.com/u/144778?v=4",
+      "profile": "http://oguz.site",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "scoo73r",
+      "name": "Scooter Crawford",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9262438?v=4",
+      "profile": "https://github.com/scoo73r",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }

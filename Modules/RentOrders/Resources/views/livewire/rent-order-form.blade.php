@@ -37,10 +37,27 @@
 
                             {{ csrf_field() }}
 
-                            <livewire:rentorders::select-user/>
+                            <livewire:rentorders::select-user />
 
-                            <livewire:rentorders::select-assets/>
+                            <div class="col-sm-12">
+                               <div style="margin-left: 25%; margin-bottom: 20px">
+                                   @if($error['user'])
+                                   <span style="color: darkred">Es necesario que seleccione un usuario. </span>
+                                   @endIf
+                               </div>
+                            </div>
 
+                            <livewire:rentorders::select-assets />
+
+                            <livewire:rentorders::select-date />
+                           
+                            <div class="col-sm-12">
+                               <div style="margin-left: 25%; margin-bottom: 20px">
+                                   @if($error['returnDate'])
+                                   <span style="color: darkred">Es necesario que seleccione una fecha estimada de devolución. </span>
+                                   @endIf
+                               </div>
+                            </div>
 
                         </div> <!-- ./box-body -->
                     </div> <!-- box -->
@@ -88,6 +105,9 @@
                                     @endForEach
                                     </tbody>
                                 </table>
+                                @if($error['assets'])
+                                <span style="color: darkred">Es necesario que al menos seleccione un equipo... </span>
+                                @endIf
                             </div>
 
                         </div> <!-- ./box-body -->
@@ -96,8 +116,6 @@
             </div> <!-- col-md-8 -->
 
         </div><!-- ./row -->
-
-
     </div>
 
 </section>
