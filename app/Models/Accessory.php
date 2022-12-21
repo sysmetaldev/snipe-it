@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Watson\Validating\ValidatingTrait;
+use App\Models\Traits\ItemType;
 
 /**
  * Model for Accessories.
@@ -24,6 +25,8 @@ class Accessory extends SnipeModel
     use CompanyableTrait;
     use Loggable, Presentable;
     use SoftDeletes;
+    use ItemType;
+
 
     protected $table = 'accessories';
     protected $casts = [

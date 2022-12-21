@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Watson\Validating\ValidatingTrait;
+use App\Models\Traits\ItemType;
+
 
 /**
  * Model for Assets.
@@ -39,7 +41,7 @@ class Asset extends Depreciable
     const USER = 'user';
 
     use Acceptable;
-
+    use ItemType;
     /**
      * Run after the checkout acceptance was declined by the user
      * 

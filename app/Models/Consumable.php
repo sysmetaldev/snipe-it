@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Helpers\Helper;
 use App\Models\Traits\Acceptable;
 use App\Models\Traits\Searchable;
+use App\Models\Traits\ItemType;
 use App\Presenters\Presentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Watson\Validating\ValidatingTrait;
 
-use Illuminate\Support\Facades\DB;
+
 
 class Consumable extends SnipeModel
 {
@@ -22,6 +23,8 @@ class Consumable extends SnipeModel
     use Loggable, Presentable;
     use SoftDeletes;
     use Acceptable;
+
+    use ItemType;
 
     protected $table = 'consumables';
     protected $casts = [
@@ -386,24 +389,4 @@ class Consumable extends SnipeModel
     }
 
 
-    public function saveWiouthPurchasseOrder($supplier_id = null)
-    {
-        return DB::transaction(function () use ($supplier_id) {
-            $con = $this->save();
-            if ($con && $supplier_id) {
-                $itemOrder = new ItemOrder();
-                $itemOrder->purchase_order_id = null;
-                $itemOrder->item_id = $this->id;
-                $itemOrder->item_type = Consumable::class;
-                $itemOrder->total = $this->qty;
-                $itemOrder->total_final = $this->qty;
-                $itemOrder->base_cost = $this->purchase_cost;
-                $itemOrder->purchase_cost = $this->purchase_cost;
-                $itemOrder->supplier_id = $supplier_id;
-                // $itemOrder->purchase_
-                $itemOrder->saveWiouthPurchasseOrder();
-            }
-            return $con;
-        });
-    }
 }

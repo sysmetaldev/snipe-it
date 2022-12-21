@@ -20,7 +20,7 @@ return [
     'asset_report'          => 'Reporte de Activo',
     'asset_tag'				=> 'Etiqueta de Activo',
     'asset_tags'            => 'Asset Tags',
-    'assets_available'		=> 'Equipos disponibles',
+    'assets_available'		=> 'Conjuntos disponibles',
     'accept_assets'         => 'Activos Aceptados :name',
     'accept_assets_menu'    => 'Activos Aceptados',
     'audit'				    => 'Auditar',

@@ -9,6 +9,7 @@
 {{-- Page content --}}
 @section('inputFields')
 
+
 @include ('partials.forms.edit.name', ['translated_name' => trans('admin/purchases/general.title')])
 @include ('partials.forms.edit.user-select', ['translated_name' => trans('general.user_to'), 'fieldname' =>
 'user_id','required' => 'true'])
@@ -18,13 +19,13 @@
 <div class="form-group">
     {{ Form::label('pur-state', trans('general.state_name'), array('class' => 'col-md-3 control-label')) }}
     <div class="col-md-6">
-        <div id="pur-state" class="form-control">  
-            {{ \App\Models\PurchaseOrder::StateName($item->state) }} 
+        <div id="pur-state" class="form-control">
+            {{ \App\Models\PurchaseOrder::StateName($item->state) }}
         </div>
     </div>
 </div>
 
-<div class="row">         
+<div class="row">
     <div class="col-lg-3 col-xs-6">
         <a href="{{ route('hardware.index') }}">
             <!-- small box -->
@@ -104,7 +105,55 @@
             </div>
         </a>
     </div><!-- ./col -->
+    @if ($item->id != null)
+    <div class="col-md-12">
+
+        <div class="box box-default">
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table 
+                         data-cookie-id-table="itemsTable"
+                         data-pagination="true" 
+                         data-id-table="itemsTable"
+                        data-search="true" 
+                        data-side-pagination="server" 
+                        data-show-columns="true"
+                        data-show-fullscreen="false" 
+                        data-show-export="true"
+                         data-show-refresh="true"
+                        data-show-footer="true" 
+                        data-sort-order="asc"
+                         id="itemsPurchase"
+                        class="table table-striped snipe-table"
+                         data-url="{{route('api.purchases.itemsForOrder',$item->id) }}"
+                        data-export-options='{
+                          "fileName": "export-ordenes-de-compra-{{ date(' d-m-Y') }}", "ignoreColumn" :
+                        ["actions","image", "change" ,"checkbox","checkincheckout","icon"] }'>
+                        <thead>
+                            <tr>
+                              {{-- <th data-switchable="false" data-formatter="suppliersSelectActionsFormatter" --}}
+                               {{-- data-searchable="false" data-sortable="false" data-field="actions">{{ trans('table.actions') }}</th> --}}
+                              <th data-sortable="true" data-field="id" data-visible="true">ID</th>
+                              <th data-sortable="false" data-field="item.name" data-formatter="suppliersLinkFormatter">Item</th>
+                              <th data-sortable="false" data-field="item.type" data-formatter="suppliersLinkFormatter">Tipo</th>
+                              {{-- <th data-sortable="true" data-field="address">{{ trans('admin/suppliers/table.address') }}</th> --}}
+                              {{-- <th data-searchable="true" data-sortable="true" data-field="contact">{{ trans('admin/suppliers/table.contact') }}</th> --}}
+                              {{-- <th data-searchable="true" data-sortable="true" data-field="email" data-formatter="emailFormatter">{{ trans('admin/suppliers/table.email') }}</th> --}}
+                              {{-- <th data-searchable="true" data-sortable="true" data-field="phone" data-formatter="phoneFormatter">{{ trans('admin/suppliers/table.phone') }}</th> --}}
+                              {{-- <th data-searchable="true" data-sortable="true" data-field="fax" data-visible="true">{{ trans('admin/suppliers/table.fax') }}</th>            --}}
+                            </tr>
+                          </thead>                   
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>
 @endif
 
+@stop
+
+@section('moar_scripts')
+@include ('partials.bootstrap-table')
 @stop

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
-use App\Http\Transformers\AccessoriesTransformer;
+use App\Http\Transformers\ItemOrderTransformer;
 use App\Http\Transformers\SelectlistTransformer;
 use App\Models\Accessory;
 use App\Models\Company;
@@ -18,6 +18,7 @@ use App\Models\PurchaseOrder;
 use App\Models\Assets;
 use App\Http\Transformers\PurchaseTransformer;
 use App\Models\Asset;
+use App\Models\ItemOrder;
 use Illuminate\Support\Facades\Log;
 
 class PurchaseOrderController extends Controller
@@ -93,10 +94,38 @@ class PurchaseOrderController extends Controller
 
 
 
+    public function itemsForOrder(Request $request, $purId){
+        $this->authorize('view.itemsForOrder');
+        $items = ItemOrder::select('items_orders.*')->where('purchase_order_id', '=', $purId);
 
-    /**
-     * @deprecated
-     */
+        $allowed_columns = ['id', 'name', 'state'];
+        $offset = (($items) && ($request->get('offset') > $items->count())) ? $items->count() : $request->get('offset', 0);
+        $offset = (int)$offset;
+
+        // Check to make sure the limit is not higher than the max allowed
+        ((config('app.max_results') >= $request->input('limit')) && ($request->filled('limit'))) ? $limit = $request->input('limit') : $limit = config('app.max_results');
+
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $sort_override = $request->input('sort');
+        $column_sort = in_array($sort_override, $allowed_columns) ? $sort_override : 'created_at';
+
+        
+        switch ($sort_override) {
+            case 'lalal':
+                $items = $items->OrderUser($order);
+                break;
+            default:
+                $items = $items->orderBy($column_sort, $order);
+                break;
+        }
+
+        $total = $items->count();
+        // $offset = 100;
+        $items = $items->skip($offset)->take($limit)->get();
+        return (new ItemOrderTransformer)->ItemOrderTransformer($items, $total);
+        
+    }
+   
     public function selectlist(Request $request)
     {
         $this->authorize('view.selectlists');

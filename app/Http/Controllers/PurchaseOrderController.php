@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePurchaseOrderRequest;
 use App\Http\Requests\UpdatePurchaseOrderRequest;
 use App\Models\PurchaseOrder;
 use App\Models\ItemOrder;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Consumable;
 use App\Models\Component;
+use App\Models\Accessory;
+use App\Models\Asset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PurchaseOrderController extends Controller
 {
@@ -33,35 +35,21 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('create', PurchaseOrder::class);
         // $category_type = 'accessory';
+        $purchase = new PurchaseOrder();
+        $purchase->user_id  = Auth::id();
 
         return view('purchases/edit')
-            ->with('item', new PurchaseOrder());
+            ->with('item', $purchase);
     }
 
     public function store(ImageUploadRequest $request)
     {
-        $this->authorize(PurchaseOrder::class);
+        $this->authorize('update', PurchaseOrder::class);
         $purchase = new PurchaseOrder();
-
         // // Update the accessory data
-        $purchase->name                    = request('name');
-        $purchase->user_id                  = request('user_id');
-        $purchase->state  = PurchaseOrder::STATES['INITIAL'];
-        // $accessory->category_id             = request('category_id');
-        // $accessory->location_id             = request('location_id');
-        // $accessory->min_amt                 = request('min_amt');
-        // $accessory->company_id              = Company::getIdForCurrentUser(request('company_id'));
-        // $accessory->order_number            = request('order_number');
-        // $accessory->manufacturer_id         = request('manufacturer_id');
-        // $accessory->model_number            = request('model_number');
-        // $accessory->purchase_date           = request('purchase_date');
-        // $accessory->purchase_cost           = Helper::ParseCurrency(request('purchase_cost'));
-        // $accessory->qty                     = request('qty');
-        // $accessory->user_id                 = Auth::user()->id;
-        // $accessory->supplier_id             = request('supplier_id');
-        // $accessory->notes                   = request('notes');
-        // $accessory->money                   = request('money', 'ARG');
-
+        $purchase->name     = request('name');
+        $purchase->user_id  = Auth::id();
+        $purchase->state    = PurchaseOrder::STATE_INITIAL;
         // $accessory = $request->handleImages($accessory);
 
         // Was the accessory created?
@@ -115,6 +103,15 @@ class PurchaseOrderController extends Controller
             case 'pur-com':
                 $itemOrder->item_id = Component::find($id)->id;
                 $itemOrder->item_type = Component::class;
+                break;
+            case 'pur-acc':
+                $itemOrder->item_id = Accessory::find($id)->id;
+                $itemOrder->item_type = Accessory::class;
+                break;
+            case 'pur-equ':
+                $itemOrder->item_id = Asset::find($id)->id;
+                $itemOrder->item_type = Asset::class;
+                break;
             default:
                 # code...
                 break;
@@ -139,7 +136,8 @@ class PurchaseOrderController extends Controller
                 ['items_orders.supplier_id', '=', $itemOrder->supplier_id],
                 ['items_orders.item_type', '=', $itemOrder->item_type],
                 ['items_orders.item_id', '=',   $itemOrder->item_id],
-                ['items_orders.purchase_order_id', '=', $itemOrder->purchase_order_id]
+                ['items_orders.purchase_order_id', '=', $itemOrder->purchase_order_id],
+                ['items_orders.state', '=', 0]
             ]
         )->get();
         if ($item->count() > 0) {
@@ -149,9 +147,20 @@ class PurchaseOrderController extends Controller
             if (str_contains($itemOrder->item_type, 'Consumable')) {
                 return redirect()->route('consumables.index')
                     ->with('success', "Item agregado a la orden de compra correctamente");
-            } else {
-                throw new \Error('Sin lugar para la cosita');
             }
+            if (str_contains($itemOrder->item_type, 'Component')) {
+                return redirect()->route('components.index')
+                    ->with('success', "Item agregado a la orden de compra correctamente");
+            }
+            if (str_contains($itemOrder->item_type, 'Accessory')) {
+                return redirect()->route('accessories.index')
+                    ->with('success', "Item agregado a la orden de compra correctamente");
+            }
+            if (str_contains($itemOrder->item_type, 'Asset')) {
+                return redirect()->route('hardware.index')
+                    ->with('success', "Item agregado a la orden de compra correctamente");
+            }
+            throw new \Error('Sin lugar para la cosita');
         }
         return redirect()->back()->withInput()->withErrors($itemOrder->getErrors());
     }

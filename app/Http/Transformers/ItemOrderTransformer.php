@@ -3,16 +3,17 @@
 namespace App\Http\Transformers;
 
 use App\Helpers\Helper;
-use App\Models\PurchaseOrder;
+use App\Models\ItemOrder;
 use Illuminate\Database\Eloquent\Collection;
 
-class PurchaseTransformer
+class ItemOrderTransformer
 {
-    public function transformPurchases(Collection $purchases, $total)
+    
+    public function ItemOrderTransformer(Collection $itemsOrders, $total)
     {
         $array = [];
-        foreach ($purchases as $pur) {
-            $array[] = self::transformPurchase($pur);
+        foreach ($itemsOrders as $item) {
+            $array[] = self::transformItemOrder($item);
         }
 
         // dd($array); die;
@@ -20,20 +21,19 @@ class PurchaseTransformer
         return (new DatatablesTransformer)->transformDatatables($array, $total);
     }
 
-    public function transformPurchase(PurchaseOrder $pur)
+    public function transformItemOrder(ItemOrder $item)
     {
+        
         $array = [
-            'id' => $pur->id,
-            'pur' => [
-                'id' => $pur->id,
-                'name' => e($pur->name)
+            'id' => $item->id,
+            'item' => [
+                'id' => $item->item->id,
+                'name' => e($item->item->name),
+                'type' => e($item->item_type)
             ],
-            'user' => ($pur->user) ? [
-                'id' => $pur->user->id,
-                'name' => e($pur->user->username)] : 'Sin usuario',
-            'state' => $pur->textState(),
-            'created_at' => Helper::getFormattedDateObject($pur->created_at, 'datetime'),
-            'updated_at' => Helper::getFormattedDateObject($pur->updated_at, 'datetime'),
+            'state' => '$item->textState()',
+            'created_at' => Helper::getFormattedDateObject($item->created_at, 'datetime'),
+            'updated_at' => Helper::getFormattedDateObject($item->updated_at, 'datetime'),
 
         ];
 

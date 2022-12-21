@@ -157,6 +157,15 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
                 'selectlist'
             ]
         )->name('api.purchases.selectlist');
+
+        Route::get(
+            '{purId}/items',
+            [
+                Api\PurchaseOrderController::class,
+                'itemsForOrder'
+            ]
+        )->name('api.purchases.itemsForOrder');
+
     });
 
     Route::resource(

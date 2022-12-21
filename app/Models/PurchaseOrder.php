@@ -10,14 +10,14 @@ use DB;
 
 class PurchaseOrder extends SnipeModel
 {
-    const STATES = [
-        'INITIAL' => 0,
-        'SEND' => 1,
-        'RECEIVED' => 2,
-        'CLOSED' => 3,
-        'ABORTED' => 4
-    ];
+    const STATE_INITIAL = 0;
+    const STATE_PRE_SEND = 1; // Pendiente de aprobacion por un supervisor
+    const STATE_SEND = 2;
+    const STATE_RECEIVED = 3;
+    const STATE_CLOSED = 4;
+    const STATE_ABORTED = 5;
 
+   
     use HasFactory;
     use Searchable;
     use ValidatingTrait;
@@ -85,25 +85,26 @@ class PurchaseOrder extends SnipeModel
 
     public function textState()
     {
+
         $salida = 'CERO';
         switch ($this->state) {
-            case 0:
+            case PurchaseOrder::STATE_INITIAL:
                 $salida = 'En proceso';
                 break;
-            case 1:
-                $salida = 'Enviado';
+            case PurchaseOrder::STATE_PRE_SEND:
+                $salida = 'Pendiente de aprobacion';
                 break;
-            case 2:
+            case PurchaseOrder::STATE_SEND:
+                $salida = 'Enviado a provedores';
+                break;
+            case PurchaseOrder::STATE_RECEIVED:
                 $salida = 'Recibido';
                 break;
-            case 3:
+            case PurchaseOrder::STATE_CLOSED:
                 $salida = 'Cerrado';
                 break;
-            case 4:
-                $salida = 'Cancelado';
-                break;
             default:
-                $salida = 'Invalido';
+                $salida = 'Cancelado';
                 break;
         }
         return $salida;

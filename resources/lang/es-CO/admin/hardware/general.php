@@ -19,7 +19,7 @@ return [
     'not_requestable'           => 'No solicitable',
     'requestable_status_warning' => 'No cambie el esdo de solicitable',
     'restore'  					=> 'Restaurar equipo',
-    'pending'  					=> 'Equipos Pendiente',
+    'pending'  					=> 'Conjuntos Pendiente',
     'undeployable'  			=> 'No desplegable',
     'view'  					=> 'Ver Equipo',
     'csv_error' => 'Tiene un error en su archivo CSV:',
