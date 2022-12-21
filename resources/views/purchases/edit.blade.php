@@ -134,8 +134,8 @@
                               {{-- <th data-switchable="false" data-formatter="suppliersSelectActionsFormatter" --}}
                                {{-- data-searchable="false" data-sortable="false" data-field="actions">{{ trans('table.actions') }}</th> --}}
                               <th data-sortable="true" data-field="id" data-visible="true">ID</th>
-                              <th data-sortable="false" data-field="item.name" data-formatter="suppliersLinkFormatter">Item</th>
-                              <th data-sortable="false" data-field="item.type" data-formatter="suppliersLinkFormatter">Tipo</th>
+                              <th data-sortable="false" data-field="item.name">Item</th>
+                              <th data-sortable="false" data-field="item.type">Tipo</th>
                               {{-- <th data-sortable="true" data-field="address">{{ trans('admin/suppliers/table.address') }}</th> --}}
                               {{-- <th data-searchable="true" data-sortable="true" data-field="contact">{{ trans('admin/suppliers/table.contact') }}</th> --}}
                               {{-- <th data-searchable="true" data-sortable="true" data-field="email" data-formatter="emailFormatter">{{ trans('admin/suppliers/table.email') }}</th> --}}

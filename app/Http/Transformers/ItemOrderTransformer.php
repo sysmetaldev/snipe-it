@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ItemOrderTransformer
 {
-    
+
     public function ItemOrderTransformer(Collection $itemsOrders, $total)
     {
         $array = [];
@@ -23,13 +23,13 @@ class ItemOrderTransformer
 
     public function transformItemOrder(ItemOrder $item)
     {
-        
+
         $array = [
             'id' => $item->id,
             'item' => [
                 'id' => $item->item->id,
                 'name' => e($item->item->name),
-                'type' => e($item->item_type)
+                'type' => e($this->classToType($item->item_type))
             ],
             'state' => '$item->textState()',
             'created_at' => Helper::getFormattedDateObject($item->created_at, 'datetime'),
@@ -53,6 +53,23 @@ class ItemOrderTransformer
         // $array += $permissions_array;
 
         return $array;
+    }
+
+    private function classToType($className): string
+    {
+        if (str_contains($className, 'Consum')) {
+            return 'Consumible';
+        }
+        if (str_contains($className, 'Compo')) {
+            return 'Componente';
+        }
+        if (str_contains($className, 'Acce')) {
+            return 'Accesorio';
+        }
+        if (str_contains($className, 'Asset')) {
+            return 'Conjunto';
+        }
+        return '';
     }
 
     public function transformCheckedoutAccessory($accessory, $accessory_users, $total)

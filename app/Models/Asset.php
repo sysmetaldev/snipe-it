@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Watson\Validating\ValidatingTrait;
 use App\Models\Traits\ItemType;
-
+ 
 
 /**
  * Model for Assets.
