@@ -37,6 +37,7 @@ class Component extends SnipeModel
         'min_amt'        => 'integer|min:0|nullable',
         'purchase_date'  => 'date|nullable',
         'purchase_cost'  => 'numeric|nullable|gte:0',
+        'money'          => 'max:3|nullable'
     ];
 
     /**
@@ -66,6 +67,7 @@ class Component extends SnipeModel
         'qty',
         'serial',
         'notes',
+        'money'
     ];
 
     use Searchable;
@@ -246,5 +248,10 @@ class Component extends SnipeModel
     public function scopeOrderCompany($query, $order)
     {
         return $query->leftJoin('companies', 'components.company_id', '=', 'companies.id')->orderBy('companies.name', $order);
+    }
+
+    public function itemOrders()
+    {
+        return $this->morphMany(ItemOrder::class, 'item');
     }
 }

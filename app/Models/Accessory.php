@@ -63,6 +63,7 @@ class Accessory extends SnipeModel
         'company_id'        => 'integer|nullable',
         'min_amt'           => 'integer|min:0|nullable',
         'purchase_cost'     => 'numeric|nullable|gte:0',
+        'money'             => 'max:3|nullable',
     ];
 
 
@@ -97,6 +98,7 @@ class Accessory extends SnipeModel
         'min_amt',
         'requestable',
         'notes',
+        'money'
     ];
 
 
@@ -424,5 +426,10 @@ class Accessory extends SnipeModel
     public function scopeOrderSupplier($query, $order)
     {
         return $query->leftJoin('suppliers', 'accessories.supplier_id', '=', 'suppliers.id')->orderBy('suppliers.name', $order);
+    }
+
+    public function itemOrders()
+    {
+        return $this->morphMany(ItemOrder::class, 'item');
     }
 }

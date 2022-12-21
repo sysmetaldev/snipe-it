@@ -41,6 +41,7 @@ class Consumable extends SnipeModel
         'company_id'  => 'integer|nullable',
         'min_amt'     => 'integer|min:0|nullable',
         'purchase_cost'   => 'numeric|nullable|gte:0',
+        'money'           => 'max:3|nullable'
     ];
 
     /**
@@ -73,6 +74,7 @@ class Consumable extends SnipeModel
         'min_amt',
         'requestable',
         'notes',
+        'money'
     ];
 
     use Searchable;
@@ -374,5 +376,11 @@ class Consumable extends SnipeModel
     public function scopeOrderCompany($query, $order)
     {
         return $query->leftJoin('companies', 'consumables.company_id', '=', 'companies.id')->orderBy('companies.name', $order);
+    }
+
+        
+    public function itemOrders()
+    {
+        return $this->morphMany(ItemOrder::class, 'item');
     }
 }

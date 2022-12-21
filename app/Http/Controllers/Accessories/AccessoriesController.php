@@ -31,8 +31,7 @@ class AccessoriesController extends Controller
      */
     public function index()
     {
-        $this->authorize('index', Accessory::class);
-
+        $this->authorize('index', Accessory::class);        
         return view('accessories/index');
     }
 
@@ -81,7 +80,7 @@ class AccessoriesController extends Controller
         $accessory->user_id                 = Auth::user()->id;
         $accessory->supplier_id             = request('supplier_id');
         $accessory->notes                   = request('notes');
-
+        $accessory->money                   = request('money', 'ARG');
 
         $accessory = $request->handleImages($accessory);
 
@@ -158,7 +157,7 @@ class AccessoriesController extends Controller
         $accessory->qty                     = request('qty');
         $accessory->supplier_id             = request('supplier_id');
         $accessory->notes                   = request('notes');
-
+        $accessory->money                   = request('money', 'ARG');
         $accessory = $request->handleImages($accessory);
 
         // Was the accessory updated?
