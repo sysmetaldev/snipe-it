@@ -137,7 +137,7 @@ class ConsumablePresenter extends Presenter
                 'title' => trans('table.actions'),
                 'visible' => true,
                 'formatter' => 'consumablesActionsFormatter',
-            ],
+            ]
         ];
 
         return json_encode($layout);

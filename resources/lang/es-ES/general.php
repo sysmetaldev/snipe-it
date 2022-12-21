@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'item_to_load'          => 'Item a cargar',
+    'user_to'               => 'Asignar a Usuario',
     'accessories'			=> 'Accesorios',
     'activated'			    => 'Activado',
     'accessory'				=> 'Accesorio',
@@ -20,12 +22,12 @@ return [
     'asset_report'          => 'Reporte de Equipos',
     'asset_tag'				=> 'Etiqueta',
     'asset_tags'            => 'Asset Tags',
-    'assets_available'		=> 'Equipos disponibles',
+    'assets_available'		=> 'Conjuntos disponibles',
     'accept_assets'         => 'Activos Aceptados :name',
     'accept_assets_menu'    => 'Activos Aceptados',
     'audit'				    => 'Auditoría',
     'audit_report'			=> 'Registro de auditoría',
-    'assets'				=> 'Equipos',
+    'assets'				=> 'Conjuntos',
     'assigned_to'           => 'Assigned to :name',
     'avatar_delete'         => 'Eliminar Avatar',
     'avatar_upload'         => 'Subir Avatar',
@@ -248,6 +250,7 @@ return [
     'state'  				=> 'Provincia',
     'status_labels'			=> 'Etiquetas Estados',
     'status'    			=> 'Estados',
+    'state_name'            => 'Estado',
     'accept_eula'           => 'Acceptance Agreement',
     'supplier'              => 'Proveedor',
     'suppliers'  			=> 'Proveedores',

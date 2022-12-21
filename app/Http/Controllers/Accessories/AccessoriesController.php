@@ -61,6 +61,7 @@ class AccessoriesController extends Controller
      */
     public function store(ImageUploadRequest $request)
     {
+
         $this->authorize(Accessory::class);
         // create a new model instance
         $accessory = new Accessory();
@@ -85,7 +86,7 @@ class AccessoriesController extends Controller
         $accessory = $request->handleImages($accessory);
 
         // Was the accessory created?
-        if ($accessory->save()) {
+        if ($accessory->saveWiouthPurchasseOrder($accessory->supplier_id)) {
             // Redirect to the new accessory  page
             return redirect()->route('accessories.index')->with('success', trans('admin/accessories/message.create.success'));
         }
@@ -161,7 +162,7 @@ class AccessoriesController extends Controller
         $accessory = $request->handleImages($accessory);
 
         // Was the accessory updated?
-        if ($accessory->save()) {
+        if ($accessory->saveWiouthPurchasseOrder($accessory->supplier_id)) {
             return redirect()->route('accessories.index')->with('success', trans('admin/accessories/message.update.success'));
         }
 

@@ -3,7 +3,7 @@
 return array(
     'activated'  			=> 'Activo',
     'allow'  				=> 'Permitir',
-    'checkedout'  			=> 'Equipos',
+    'checkedout'  			=> 'Conjuntos',
     'created_at' 			=> 'Creado',
     'createuser' 			=> 'Crear Usuario',
     'deny'  				=> 'Denegar',

@@ -186,7 +186,7 @@ class AssetsController extends Controller
             }
 
             // Validate the asset before saving
-            if ($asset->isValid() && $asset->save()) {
+            if ($asset->isValid() && ($asset->saveWiouthPurchasseOrder($asset->supplier_id))) {
                 if (request('assigned_user')) {
                     $target = User::find(request('assigned_user'));
                     $location = $target->location_id;
@@ -378,7 +378,7 @@ class AssetsController extends Controller
         }
 
 
-        if ($asset->save()) {
+        if ($asset->saveWiouthPurchasseOrder($asset->supplier_id)) {
             return redirect()->route('hardware.show', $assetId)
                 ->with('success', trans('admin/hardware/message.update.success'));
         }

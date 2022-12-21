@@ -134,13 +134,48 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
         ]
     );
 
+    // Route::group(['prefix' => 'purchases'], function () {
+
+    //     Route::get(
+    //         'selectlist',
+    //         [
+    //             Api\PurchaseOrderController::class,
+    //             'selectlist'
+    //         ]
+    //     )->name('api.purchases.items-selectlist');
+    // }); 
+
+     /**
+     * Assets API routes
+     */
+    Route::group(['prefix' => 'pur-open'], function () {
+
+        Route::get(
+            'selectlist',
+            [
+                Api\PurchaseOrderController::class,
+                'selectlist'
+            ]
+        )->name('api.purchases.selectlist');
+
+        Route::get(
+            '{purId}/items',
+            [
+                Api\PurchaseOrderController::class,
+                'itemsForOrder'
+            ]
+        )->name('api.purchases.itemsForOrder');
+
+    });
+
     Route::resource(
         'purchases',
-        Api\PurchaseOrderController::class,            
+        Api\PurchaseOrderController::class,
         [
             'names' =>
             [
                 'index' => 'api.purchases.index',
+                // 'selectlist' => 'api.purchases.items-selectlist'
                 // 'show' => 'api.accessories.show',
                 // 'update' => 'api.accessories.update',
                 // 'store' => 'api.accessories.store',
@@ -150,7 +185,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
             'parameters' => ['purchase' => 'purchase_id'],
         ]
     );
-    
+  
     
 
     /**
@@ -1016,6 +1051,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
                 'selectlist'
             ]
         )->name('api.suppliers.selectlist');
+
+        Route::get(
+            'costs',
+            [
+                Api\SuppliersController::class,
+                'costs'
+            ]
+        )->name('api.suppliers.costs');
     });
 
     Route::resource(
@@ -1028,7 +1071,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
                 'show' => 'api.suppliers.show',
                 'update' => 'api.suppliers.update',
                 'store' => 'api.suppliers.store',
-                'destroy' => 'api.suppliers.destroy',
+                'destroy' => 'api.suppliers.destroy',              
             ],
             'except' => ['create', 'edit'],
             'parameters' => ['supplier' => 'supplier_id'],

@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Helpers\Helper;
 use App\Models\Traits\Acceptable;
 use App\Models\Traits\Searchable;
+use App\Models\Traits\ItemType;
 use App\Presenters\Presentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Watson\Validating\ValidatingTrait;
+
+
 
 class Consumable extends SnipeModel
 {
@@ -21,6 +24,8 @@ class Consumable extends SnipeModel
     use SoftDeletes;
     use Acceptable;
 
+    use ItemType;
+
     protected $table = 'consumables';
     protected $casts = [
         'purchase_date' => 'datetime',
@@ -28,8 +33,8 @@ class Consumable extends SnipeModel
         'category_id'    => 'integer',
         'company_id'     => 'integer',
         'qty'            => 'integer',
-        'min_amt'        => 'integer',    
-     ];
+        'min_amt'        => 'integer',
+    ];
 
     /**
      * Category validation rules
@@ -232,10 +237,9 @@ class Consumable extends SnipeModel
     public function getImageUrl()
     {
         if ($this->image) {
-            return Storage::disk('public')->url(app('consumables_upload_path').$this->image);
+            return Storage::disk('public')->url(app('consumables_upload_path') . $this->image);
         }
         return false;
-
     }
 
     /**
@@ -378,9 +382,11 @@ class Consumable extends SnipeModel
         return $query->leftJoin('companies', 'consumables.company_id', '=', 'companies.id')->orderBy('companies.name', $order);
     }
 
-        
+
     public function itemOrders()
     {
         return $this->morphMany(ItemOrder::class, 'item');
     }
+
+
 }

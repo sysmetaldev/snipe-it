@@ -7,6 +7,7 @@ use App\Presenters\Presentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
+use App\Models\Traits\ItemType;
 
 /**
  * Model for Components.
@@ -21,6 +22,8 @@ class Component extends SnipeModel
     use CompanyableTrait;
     use Loggable, Presentable;
     use SoftDeletes;
+    use ItemType;
+
     protected $casts = [
         'purchase_date' => 'datetime',
     ];

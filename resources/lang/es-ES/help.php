@@ -31,4 +31,7 @@ return [
 
     'depreciations' => 'Puede configurar las depreciaciones de activos para depreciar activos basados en una depreciación lineal.',
 
+    'purchases' => 'Las ordenes de compras son pedidos para provedores, las cuales se cargan al sistema una vez recibidos',
+
+    'itemPur' => 'Los pedidos se agregan a la orden de compra'
 ];

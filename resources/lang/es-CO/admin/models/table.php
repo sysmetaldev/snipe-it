@@ -7,7 +7,7 @@ return array(
     'eol'	 				=> 'Vida útil',
     'modelnumber'   		=> 'Modelo Nro.',
     'name'      			=> 'Nombre Modelo de Equipo',
-    'numassets' 			=> 'Equipos',
+    'numassets' 			=> 'Conjuntos',
     'title'					=> 'Modelos de equipo',
     'update'				=> 'Actualizar Modelo de Equipo',
     'view'					=> 'Ver Modelo de Equipo',

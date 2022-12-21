@@ -84,7 +84,7 @@ class ComponentsController extends Controller
         $component->money                  = $request->input('money', 'ARG');
         $component = $request->handleImages($component);
 
-        if ($component->save()) {
+        if ($component->saveWiouthPurchasseOrder($request->input('supplier_id', null))) {
             return redirect()->route('components.index')->with('success', trans('admin/components/message.create.success'));
         }
 
@@ -157,7 +157,7 @@ class ComponentsController extends Controller
         $component->money                  = $request->input('money', 'ARG');
         $component = $request->handleImages($component);
 
-        if ($component->save()) {
+        if ($component->saveWiouthPurchasseOrder($request->input('supplier_id', null))) {
             return redirect()->route('components.index')->with('success', trans('admin/components/message.update.success'));
         }
 

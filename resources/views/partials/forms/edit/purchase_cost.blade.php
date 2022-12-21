@@ -3,9 +3,9 @@
     <label for="purchase_cost" class="col-md-3 control-label">{{ trans('general.purchase_cost') }}</label>
     <div class="col-md-9">
         <div class="input-group col-md-9" style="padding-left: 0px;">
-            <div class="col-sm-8" style="padding-left: 0px;">         
+            <div class="col-sm-8" style="padding-left: 0px;">
                 <input class="form-control" type="text" name="purchase_cost" aria-label="purchase_cost" id="purchase_cost" value="{{ old('purchase_cost', Helper::formatCurrencyOutput($item->purchase_cost)) }}" />
-            </div>    
+            </div>
             <!-- <span class="input-group-addon">
                 @if (isset($currency_type))
                     {{ $currency_type }}
@@ -24,10 +24,13 @@
                      @endif
                     </option>
                     <option {{ $item->money == 'USD' ? 'selected':''}}>
-                            USD 
-                    </option>                   
+                            USD
+                    </option>
+                    <option {{ $item->money == 'EUR' ? 'selected':''}}>
+                            EUR
+                    </option>
                 </select>
-            </div>    
+            </div>
         </div>
         <div class="col-md-9" style="padding-left: 0px;">
             {!! $errors->first('purchase_cost', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}

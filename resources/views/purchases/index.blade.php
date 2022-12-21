@@ -8,7 +8,7 @@
 
 @section('header_right')
     @can('create', \App\Models\PurchaseOrder::class)
-        <a href="{{ route('accessories.create') }}" accesskey="n" class="btn btn-primary pull-right"> {{ trans('general.create') }}</a>
+        <a href="{{ route('purchases.create') }}" accesskey="n" class="btn btn-primary pull-right"> {{ trans('general.create') }}</a>
     @endcan
 @stop
 
@@ -39,8 +39,9 @@
                 class="table table-striped snipe-table"
                 data-url="{{route('api.purchases.index') }}"
                 data-export-options='{
-                    "fileName": "export-accessories-{{ date('Y-m-d') }}",
-                    "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","icon"]
+                    "fileName": "export-ordenes-de-compra-{{ date('d-m-Y') }}",
+                    "ignoreColumn": ["actions","image",
+                    "change","checkbox","checkincheckout","icon"]
                     }'>
           </table>
         </div>

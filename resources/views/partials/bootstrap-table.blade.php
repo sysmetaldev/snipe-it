@@ -255,6 +255,30 @@
             if (dest =='maintenances') {
                 var dest = 'hardware/maintenances';
             }
+            
+            if (dest =='consumables') {
+                // {{ route('modal.show', 'pur-consumables') }}
+                actions += '<a href="{{ route('purchases.item', ['type'=>'pur-con']) }}/'+row.id+'" data-select="assigned_user_select"  class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
+            }
+
+            if (dest =='components') {
+                // {{ route('modal.show', 'pur-consumables') }}
+                actions += '<a href="{{ route('purchases.item', ['type'=>'pur-com']) }}/'+row.id+'" data-select="assigned_user_select"  class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
+            }
+            if (dest =='accessories') {
+                // {{ route('modal.show', 'pur-consumables') }}
+                actions += '<a href="{{ route('purchases.item', ['type'=>'pur-acc']) }}/'+row.id+'" data-select="assigned_user_select"  class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
+            }
+            if (dest =='hardware') {
+                // {{ route('modal.show', 'pur-consumables') }}
+                actions += '<a href="{{ route('purchases.item', ['type'=>'pur-equ']) }}/'+row.id+'" data-select="assigned_user_select"  class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;';
+            }
+          
+            if (dest == 'suppliersSelect'){
+                actions += '<input type="radio" name="supplier_id" value="'+row.id+'" />';
+                actions +='</nobr>';
+                return actions;
+            }
 
             if(element_name != '') {
                 dest = dest + '/' + row.owner_id + '/' + element_name;
@@ -267,6 +291,8 @@
             if ((row.available_actions) && (row.available_actions.update === true)) {
                 actions += '<a href="{{ url('/') }}/' + dest + '/' + row.id + '/edit" class="btn btn-sm btn-warning" data-tooltip="true" title="{{ trans('general.update') }}"><i class="fas fa-pencil-alt" aria-hidden="true"></i><span class="sr-only">{{ trans('general.update') }}</span></a>&nbsp;';
             }
+
+           
 
             if ((row.available_actions) && (row.available_actions.delete === true)) {
                 actions += '<a href="{{ url('/') }}/' + dest + '/' + row.id + '" '
@@ -366,6 +392,10 @@
 
     }
 
+    function addPurchaseOrder(value, row){
+        return '<nobr><a href="http://localhost:8000/consumables/1/edit" class="btn btn-sm" data-tooltip="true" title="{{ trans('admin/purchases/general.add_to_order') }}" style="background-color: #00a65a !important; color: #fff"><i class="fa fa-cash-register" aria-hidden="true"></i><span class="sr-only">{{ trans('admin/purchases/general.add_to_order') }}</span></a>&nbsp;</nobr>';
+    }
+
     function genericCheckinCheckoutFormatter(destination) {
         return function (value,row) {
 
@@ -426,7 +456,8 @@
         'depreciations',
         'fieldsets',
         'groups',
-        'kits'
+        'kits',
+        'suppliersSelect'
     ];
 
     for (var i in formatters) {
@@ -559,6 +590,13 @@
     function assetNameLinkFormatter(value, row) {
         if ((row.asset) && (row.asset.name)) {
             return '<a href="{{ url('/') }}/hardware/' + row.asset.id + '">' + row.asset.name + '</a>';
+        }
+
+    }
+
+    function purchaseLinkEditFormatter(value, row) {
+        if ((row.pur) && (row.pur.name)) {
+            return '<a href="{{ url('/') }}/purchases/' + row.pur.id + '/edit">' + row.pur.name + '</a>';
         }
 
     }
@@ -783,5 +821,5 @@
     });
 
 </script>
-    
+
 @endpush

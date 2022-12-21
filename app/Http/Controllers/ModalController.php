@@ -17,14 +17,15 @@ class ModalController extends Controller
      * @author [A. Gianotto] [<snipe@snipe.net]
      * @return View
      */
-    function show ($type, $itemId = null) {
+    function show($type, $itemId = null)
+    {
 
         // These values should correspond to a file in resources/views/modals/
         $allowed_types = [
             'category',
-            'kit-model', 
-            'kit-license', 
-            'kit-consumable', 
+            'kit-model',
+            'kit-license',
+            'kit-consumable',
             'kit-accessory',
             'location',
             'manufacturer',
@@ -32,23 +33,21 @@ class ModalController extends Controller
             'statuslabel',
             'supplier',
             'upload-file',
-            'user',         
+            'user',
+            'item'
         ];
-
-
         if (in_array($type, $allowed_types)) {
-        $view = view("modals.${type}");
+            $view = view("modals.${type}");
 
             if ($type == "statuslabel") {
-            $view->with('statuslabel_types', Helper::statusTypeList());
-        }
-        if (in_array($type, ['kit-model', 'kit-license', 'kit-consumable', 'kit-accessory'])) {
-            $view->with('kitId', $itemId);
+                $view->with('statuslabel_types', Helper::statusTypeList());
+            }
+            if (in_array($type, ['kit-model', 'kit-license', 'kit-consumable', 'kit-accessory'])) {
+                $view->with('kitId', $itemId);
             }
             return $view;
         }
 
-        abort(404,'Page not found');
-        
+        abort(404, 'Page not found');
     }
 }

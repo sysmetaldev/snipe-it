@@ -16,24 +16,35 @@ class PurchasePresenter extends Presenter
 
         $layout = [
             [
+                'field' => 'title',
+                'searchable' => true,
+                'sortable' => true,
+                'switchable' => true,
+                'title' => trans('general.title'),
+                'visible' => true,
+                'formatter' => 'purchaseLinkEditFormatter',
+            ],
+            [
                 'field' => 'id',
                 'searchable' => true,
                 'sortable' => true,
-                'switchable' => false,
+                'switchable' => true,
                 'title' => trans('general.order_number'),
                 'visible' => true,
-            ], [
-                'field' => 'name',
-                'searchable' => true,
-                'sortable' => true,
-                'switchable' => false,
-                'title' => trans('general.title'),
-                'visible' => true,
-            ], [
+            ],
+            [
                 'field' => 'state',
                 'searchable' => true,
                 'sortable' => true,
-                'title' => trans('general.state'),
+                'title' => trans('general.state_name'),
+            ],
+            [
+                'field' => 'user',
+                'searchable' => true,
+                'sortable' => true,
+                'switchable' => true,
+                'title' => trans('general.user'),
+                'formatter' => 'usersLinkObjFormatter',
             ]
         ];
         return json_encode($layout);
@@ -45,7 +56,7 @@ class PurchasePresenter extends Presenter
      */
     public function nameUrl()
     {
-        return (string) link_to_route('accessories.show', $this->name, $this->id);
+        return (string) link_to_route('purcharse.show', $this->name, $this->id);
     }
 
     /**
@@ -54,7 +65,7 @@ class PurchasePresenter extends Presenter
      */
     public function viewUrl()
     {
-        return route('accessories.show', $this->id);
+        return route('purcharse.show', $this->id);
     }
 
     public function name()

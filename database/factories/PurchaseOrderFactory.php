@@ -17,7 +17,7 @@ class PurchaseOrderFactory extends Factory
     {
         return [
             'name' => 'Order automatic '.($this->faker->numberBetween(1, 500)),
-            'state' => PurchaseOrder::STATES['INITIAL'],
+            'state' => PurchaseOrder::STATE_INITIAL,
             'user_id' => 1,
             'initial_date' => $this->faker->dateTimeBetween('-1 years', 'now', date_default_timezone_get())
         ];

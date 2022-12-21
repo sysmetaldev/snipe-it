@@ -1,5 +1,8 @@
+@if ((!isset($hide_div_parent)) || ($hide_div_parent!='true'))
 <div id="assigned_user" class="form-group{{ $errors->has($fieldname) ? ' has-error' : '' }}">
-
+@else
+<div class="dynamic-form-row form-group{{ $errors->has($fieldname) ? ' has-error' : '' }}">
+@endif
     {{ Form::label($fieldname, $translated_name, array('class' => 'col-md-3 control-label')) }}
 
     <div class="col-md-7{{  ((isset($required)) && ($required=='true')) ? ' required' : '' }}">
@@ -9,7 +12,7 @@
                     {{ (\App\Models\Supplier::find($supplier_id)) ? \App\Models\Supplier::find($supplier_id)->name : '' }}
                 </option>
             @else
-                <option value=""  role="option">{{ trans('general.select_supplier') }}</option>
+                <option value="" role="option">{{ trans('general.select_supplier') }}</option>
             @endif
         </select>
     </div>
@@ -23,5 +26,4 @@
     </div>
 
     {!! $errors->first($fieldname, '<div class="col-md-8 col-md-offset-3"><span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span></div>') !!}
-
 </div>

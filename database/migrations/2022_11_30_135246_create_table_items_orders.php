@@ -25,12 +25,6 @@ class CreateTableItemsOrders extends Migration
             $table->index('supplier_id');
         });
 
-        Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->integer('user_id');
-            $table->index('user_id');
-            $table->date('initial_date')->nullable();
-            $table->date('recibed_date')->nullable();
-        });
     }
 
     /**
@@ -44,9 +38,6 @@ class CreateTableItemsOrders extends Migration
             Schema::dropIfExists('items_orders');
         });
 
-        Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->dropColumn('user_id');
-            $table->dropIndex('user_id');
-        });
+       
     }
 }
