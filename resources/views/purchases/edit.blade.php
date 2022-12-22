@@ -26,7 +26,7 @@
 </div>
 
 <div class="row" style="margin: 15px">
-    <div class="col-lg-3 col-xs-6">
+    {{-- <div class="col-lg-3 col-xs-6">
         <a href="{{ route('hardware.index') }}">
             <!-- small box -->
             <div class="small-box bg-teal">
@@ -44,7 +44,7 @@
                 @endcan
             </div>
         </a>
-    </div><!-- ./col -->
+    </div><!-- ./col --> --}}
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <a href="{{ route('accessories.index') }}">
