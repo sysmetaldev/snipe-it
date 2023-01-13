@@ -296,8 +296,9 @@ class UsersController extends Controller
         $this->authorize('create', User::class);
 
         $user = new User;
+         //TODO Agregarle el español por defecto
         $user->fill($request->all());
-
+        $user->locale = 'es-ES';
         if ($request->has('permissions')) {
             $permissions_array = $request->input('permissions');
 
@@ -403,7 +404,7 @@ class UsersController extends Controller
 
         
         app('App\Http\Requests\ImageUploadRequest')->handleImages($user, 600, 'image', 'avatars', 'avatar');
-          
+        $user->locale = 'es-ES';
         if ($user->save()) {
 
             // Sync group memberships:

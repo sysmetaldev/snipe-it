@@ -121,8 +121,6 @@
 
         @include ('partials.forms.edit.image-upload', ['fieldname' => 'avatar'])
 
-
-
         <!-- Two factor opt in -->
         @if ($snipeSettings->two_factor_enabled=='1')
         <div class="form-group {{ $errors->has('two_factor_optin') ? 'has-error' : '' }}">
